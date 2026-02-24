@@ -9,7 +9,7 @@ builder.AddProject<Projects.AspireApp_Web>("webfrontend")
     .WithReference(apiService)
     .WaitFor(apiService);
 
-builder.AddViteApp(name: "todo-frontend", workingDirectory: "../AspireApp.Frontend")
+builder.AddViteApp(name: "frontend", workingDirectory: "../AspireApp.Frontend")
     .WithReference(apiService)
     .WaitFor(apiService)
     .WithNpmPackageInstallation();
