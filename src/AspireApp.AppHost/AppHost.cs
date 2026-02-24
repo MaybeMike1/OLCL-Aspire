@@ -1,7 +1,13 @@
 var builder = DistributedApplication.CreateBuilder(args);
 
+var postgres = builder.AddPostgres("postgres");
+var postgresdb = postgres.AddDatabase("postgresdb");
+
+
 var apiService = builder.AddProject<Projects.AspireApp_ApiService>("apiservice")
-    .WithHttpHealthCheck("/health");
+    .WithHttpHealthCheck("/health")
+    .WaitFor(postgresdb)
+    .WithReference(postgresdb);
 
 builder.AddProject<Projects.AspireApp_Web>("webfrontend")
     .WithExternalHttpEndpoints()
@@ -13,5 +19,5 @@ builder.AddViteApp(name: "frontend", workingDirectory: "../AspireApp.Frontend")
     .WithReference(apiService)
     .WaitFor(apiService)
     .WithNpmPackageInstallation();
-    
+
 builder.Build().Run();
