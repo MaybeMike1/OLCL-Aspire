@@ -1,3 +1,5 @@
+using Scalar.Aspire;
+
 var builder = DistributedApplication.CreateBuilder(args);
 
 var postgres = builder.AddPostgres("postgres");
@@ -19,5 +21,12 @@ builder.AddViteApp(name: "frontend", workingDirectory: "../AspireApp.Frontend")
     .WithReference(apiService)
     .WaitFor(apiService)
     .WithNpmPackageInstallation();
+
+
+var scalar = builder.AddScalarApiReference();
+
+scalar
+    .WithApiReference(apiService);
+
 
 builder.Build().Run();
